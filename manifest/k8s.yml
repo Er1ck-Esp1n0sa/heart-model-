@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {model_name}-deployment
+  name: ml-deployment
 spec:
   selector:
     matchLabels:
-      app: {model_name}-server
+      app: ml-server
   replicas: 1
   template:
     metadata:
       labels:
-        app: {model_name}-server
+        app: ml-server
     spec:
       containers:
-      - name: {model_name}-container
+      - name: ml-container
         #image: gcr.io/tensorflow-serving/resnet 
-        image: docker.io/{docker_user}/fastapiml-{model_name}:latest
+        image: docker.io/eler1ck/fastapiml:latest
         ports:
         - containerPort: 80
 ---
@@ -24,12 +24,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    run: {model_name}-service
-  name: {model_name}-service
+    run: ml-service
+  name: ml-service
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: {model_name}-server
+    app: ml-server
   type: LoadBalancer
