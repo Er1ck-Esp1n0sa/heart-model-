@@ -16,6 +16,11 @@ jobs:
 #update Github Action - pip install
     - name: pip install
       run: pip install -r requirements.txt
+#update Github Action -  download dataset
+    - name: download dataset
+      run: wget -O data/heart_disease.csv ${{github.event.client_payload.dataseturl}}
+    - name: cat dataset
+      run: cat data/heart_disease.csv
 #update Github Action - train model
     - name: train model
       run: python model/train.py
